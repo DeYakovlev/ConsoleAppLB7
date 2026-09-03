@@ -9,6 +9,14 @@ namespace ConsoleAppLB7
         private Action _speak;
 
         private Action<double> _gainWeight;
+
+        private EventHandler _onLowGrade;
+
+        public event EventHandler OnLowGrade 
+        { add { _onLowGrade += value; }
+          remove { _onLowGrade -= value; } 
+        }
+
         public string Group { get; set; }
         public double AverageGrade { get; set; }
 
@@ -56,6 +64,16 @@ namespace ConsoleAppLB7
         public bool SpeakComparison(Student student) 
         {
             return this._speak == student._speak;
+        }
+
+        public void SetAverageGrade(double grade) 
+        {
+            AverageGrade = grade;
+
+            if (AverageGrade < 3) 
+            {
+                _onLowGrade?.Invoke(this,EventArgs.Empty);
+            }
         }
     }
 }

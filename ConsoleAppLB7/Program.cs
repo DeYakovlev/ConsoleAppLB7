@@ -53,6 +53,30 @@ namespace ConsoleAppLB7
             Console.WriteLine(student2.Weight);
 
 
+            Student studentE = new Student("Иван", 20, "ИТ-21", 4.5);
+
+            // 1. Статический метод
+            studentE.OnLowGrade += LifeMonitor.Critical;
+
+            // 2. Экземплярный метод
+            Healthmonitor monitor = new Healthmonitor();
+            studentE.OnLowGrade += monitor.Warn;
+
+            // 3. Анонимный делегат
+            studentE.OnLowGrade += delegate (object sender, EventArgs e)
+            {
+                Console.WriteLine("Анонимный обработчик: что-то пошло не так!");
+            };
+
+            // 4. Лямбда-выражение
+            studentE.OnLowGrade += (sender, e) =>
+            {
+                Console.WriteLine("Лямбда: балл упал!");
+            };
+
+            studentE.SetAverageGrade(2.5); 
+
+
         }
     }
 }
